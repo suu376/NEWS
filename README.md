@@ -1,12 +1,12 @@
 # 🌶️ 마라탕 아카이브
 
-### 👉 [첫 화면 열기 · suu376.github.io/NEWS](https://suu376.github.io/NEWS/)
+### 👉 [첫 화면 열기](https://suu376.github.io/NEWS/)
 
 ## 🎮 게임: 누르면 바로 실행
 
 | 게임 | 바로 플레이 |
 | --- | --- |
-| 🍜 **왕푸 아저씨네 마라탕** | [▶ 플레이](https://suu376.github.io/NEWS/마라탕-게임/왕푸-아저씨네-마라탕/3-기본판/) · [랭킹판](https://suu376.github.io/NEWS/마라탕-게임/왕푸-아저씨네-마라탕/2-랭킹-연결판/) · [처음판](https://suu376.github.io/NEWS/마라탕-게임/왕푸-아저씨네-마라탕/1-처음판/) |
+| 🍜 **왕푸 아저씨네 마라탕**: 60초 동안 재료를 썰어 마라탕 완성 | [▶ 플레이](https://suu376.github.io/NEWS/왕푸아저씨네-마라탕/) · [랭킹판](https://suu376.github.io/NEWS/왕푸아저씨네-마라탕/랭킹판/) · [처음판](https://suu376.github.io/NEWS/왕푸아저씨네-마라탕/처음판/) |
 
 ## 📰 카드뉴스: 인스타 5장 (1080×1350)
 
@@ -15,13 +15,19 @@
 | 마라샹궈 비SSAN 이유 | [카드뉴스 보기 ↗](https://claude.ai/artifact/S3ktGCmeDx2vsV2j32wb4S) |
 | 마라샹궈 비SSAN 이유 (말풍선 없는 버전) | [카드뉴스 보기 ↗](https://claude.ai/artifact/RUujkCBEobzBeBNHSJQGnE) |
 
----
+## 📁 폴더 구성
 
-<details>
-<summary>폴더 구성</summary>
+```
+NEWS/
+├── index.html                 첫 화면
+├── 왕푸아저씨네-마라탕/
+│   ├── index.html             게임 (기본판)
+│   ├── 랭킹판/index.html
+│   └── 처음판/index.html
+└── 카드뉴스/
+    ├── 마라탕vs마라샹궈/         카드 5장 원본 (Main, Card2~5, canvas.json)
+    └── 마라탕vs마라샹궈-말풍선없음/
+```
 
-- `index.html`: 첫 화면
-- `마라탕-게임/`: 게임별 폴더, 각 폴더의 `index.html`이 게임이에요
-- `카드뉴스/`: 카드뉴스 원본 디자인 파일(`project/*.dc.html`, `canvas.json`). 사진은 Claude 디자인 안에만 있어서 카드뉴스 보기 링크로 확인할 수 있어요.
+카드뉴스 사진은 Claude 디자인 안에만 있어서 원본 파일에는 없어요. 완성본은 위의 카드뉴스 보기 링크에서 볼 수 있어요.
 
-</details>
