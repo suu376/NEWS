@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>가사 자막 싱크</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0e0e0f; --panel:#18181a; --line:#2a2a2d; --text:#e9e7e2; --mute:#8d8a84; --accent:#d9b44a; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:"Noto Sans KR",system-ui,sans-serif; font-weight:300; }
+  .wrap { max-width:1000px; margin:0 auto; padding:20px 16px 60px; display:grid; gap:20px; grid-template-columns: minmax(0,360px) minmax(0,1fr); }
+  @media (max-width:760px){ .wrap{ grid-template-columns:1fr; } }
+  h1 { grid-column:1/-1; font-weight:300; letter-spacing:.2em; font-size:18px; margin:4px 0 0; }
+  h1 small { display:block; letter-spacing:0; color:var(--mute); font-size:13px; margin-top:6px; }
+  .stage { position:relative; background:#000; border-radius:10px; overflow:hidden; aspect-ratio:9/16; display:flex; align-items:center; justify-content:center; }
+  .stage video { width:100%; height:100%; object-fit:contain; display:block; }
+  .stage .empty { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; color:var(--mute); font-size:14px; padding:20px; }
+  .stage .empty[hidden] { display:none; }
+  .cap { position:absolute; left:6%; right:6%; text-align:center; color:#fff; font-weight:300; white-space:pre-wrap;
+         text-shadow:0 0 6px rgba(0,0,0,.45); transition:opacity .25s; pointer-events:none; transform:translateY(-50%); }
+  .panel { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px; display:grid; gap:12px; }
+  label.t { font-size:12px; color:var(--mute); letter-spacing:.05em; }
+  textarea { width:100%; min-height:150px; background:#0f0f10; color:var(--text); border:1px solid var(--line); border-radius:8px; padding:10px; font:inherit; font-size:14px; line-height:1.6; resize:vertical; }
+  button, .filebtn { background:#232326; color:var(--text); border:1px solid var(--line); border-radius:8px; padding:10px 12px; font:inherit; font-size:14px; cursor:pointer; }
+  button.main { background:var(--accent); color:#1a1608; border-color:var(--accent); font-weight:400; }
+  button:disabled { opacity:.4; cursor:default; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .row > * { flex:1 1 auto; }
+  .tap { font-size:17px; padding:18px; }
+  input[type=range]{ width:100%; accent-color:var(--accent); }
+  .sl { display:grid; grid-template-columns:70px 1fr 44px; gap:8px; align-items:center; font-size:13px; color:var(--mute); }
+  ol { margin:0; padding:0; list-style:none; display:grid; gap:4px; max-height:300px; overflow:auto; }
+  li { display:grid; grid-template-columns:22px 1fr 64px 64px; gap:6px; align-items:center; font-size:13px; padding:5px 6px; border-radius:6px; }
+  li.now { background:#2a2617; }
+  li .n { color:var(--mute); }
+  li .tx { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; cursor:pointer; }
+  li input { width:100%; background:#0f0f10; border:1px solid var(--line); color:var(--text); border-radius:5px; padding:4px; font:inherit; font-size:12px; text-align:center; }
+  .hint { font-size:12px; color:var(--mute); line-height:1.6; }
+  .status { font-size:13px; color:var(--accent); min-height:1em; }
+  #out video { width:100%; border-radius:8px; margin-top:6px; }
+  #srtBox { width:100%; min-height:90px; font-size:12px; font-family:ui-monospace,monospace; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>가사 자막 싱크<small>영상 올리기 → 가사 붙여넣기 → 노래에 맞춰 탭 → 영상/SRT로 내보내기</small></h1>
+
+  <div>
+    <div class="stage" id="stage">
+      <video id="v" playsinline></video>
+      <div class="empty" id="empty">아래에서 영상을 선택하세요</div>
+      <div class="cap" id="cap"></div>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <label class="filebtn" style="text-align:center">영상 선택<input id="file" type="file" accept="video/*" hidden></label>
+      <button id="play" disabled>▶ 재생</button>
+    </div>
+  </div>
+
+  <div style="display:grid; gap:14px; align-content:start">
+    <div class="panel">
+      <label class="t" for="lyrics">1. 가사 (한 줄 = 자막 한 장면)</label>
+      <textarea id="lyrics" placeholder="여기에 가사를 붙여넣으세요.&#10;한 줄씩 화면에 나옵니다.&#10;&#10;띄어쓰기를 넓게 하고 싶으면 그대로 두 칸씩 띄워도 돼요."></textarea>
+    </div>
+
+    <div class="panel">
+      <label class="t">2. 싱크 맞추기</label>
+      <div class="hint">‘싱크 시작’을 누르면 처음부터 재생돼요. 각 줄이 불리기 시작할 때 <b>다음 줄</b>(또는 스페이스바)을 누르세요. 간주처럼 자막을 비워야 하는 곳에서는 <b>자막 끄기</b>(또는 X키)를 누르세요.</div>
+      <div class="row"><button id="startSync" class="main" disabled>싱크 시작</button></div>
+      <div class="row">
+        <button id="tapNext" class="tap" disabled>다음 줄</button>
+        <button id="tapOff" class="tap" disabled style="flex:0 0 32%">자막 끄기</button>
+      </div>
+      <div class="status" id="syncStatus"></div>
+      <ol id="list"></ol>
+      <div class="hint">줄을 누르면 그 위치로 이동해요. 시간(초)은 직접 고칠 수도 있어요.</div>
+    </div>
+
+    <div class="panel">
+      <label class="t">3. 스타일</label>
+      <div class="sl">위치<input id="pos" type="range" min="10" max="90" value="60"><span id="posV"></span></div>
+      <div class="sl">크기<input id="size" type="range" min="2" max="7" step=".1" value="3.0"><span id="sizeV"></span></div>
+      <div class="sl">자간<input id="ls" type="range" min="0" max="0.5" step=".01" value="0.18"><span id="lsV"></span></div>
+      <div class="sl">굵기<input id="wt" type="range" min="300" max="400" step="100" value="300"><span id="wtV"></span></div>
+    </div>
+
+    <div class="panel">
+      <label class="t">4. 내보내기</label>
+      <div class="row">
+        <button id="exportVid" class="main" disabled>자막 입힌 영상 만들기</button>
+        <button id="copySrt" disabled>SRT 복사</button>
+        <button id="saveSrt" hidden>SRT 저장(.txt)</button>
+      </div>
+      <div class="hint">영상 만들기는 영상 길이만큼 실시간으로 재생하며 녹화해요. 끝나면 아래에 결과가 나오니 저장하세요(휴대폰은 영상을 길게 누르거나 공유 버튼). SRT는 CapCut·VLLO 등 편집 앱에 붙여넣어 쓸 수 있어요.</div>
+      <div class="status" id="expStatus"></div>
+      <div id="out"></div>
+      <textarea id="srtBox" hidden readonly></textarea>
+    </div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const v = $('v'), cap = $('cap'), stage = $('stage');
+let lines = [], cues = [];   // cues: {start, end} per line index (null if unset)
+let syncing = false, syncIdx = -1;
+const style = { pos:60, size:3.0, ls:0.18, wt:300 };
+
+function readLyrics(){
+  lines = $('lyrics').value.split('\n').map(s=>s.replace(/\s+$/,'')).filter(s=>s.trim().length);
+  while (cues.length < lines.length) cues.push({start:null,end:null});
+  cues.length = lines.length;
+  renderList(); updateButtons();
+}
+$('lyrics').addEventListener('input', readLyrics);
+
+$('file').addEventListener('change', e=>{
+  const f = e.target.files[0]; if(!f) return;
+  v.src = URL.createObjectURL(f);
+  $('empty').hidden = true;
+  v.onloadedmetadata = ()=>{ if (v.videoWidth && v.videoHeight) stage.style.aspectRatio = v.videoWidth+'/'+v.videoHeight; updateButtons(); };
+});
+$('play').onclick = ()=>{ v.paused ? v.play() : v.pause(); };
+v.addEventListener('play', ()=>$('play').textContent='❚❚ 일시정지');
+v.addEventListener('pause', ()=>$('play').textContent='▶ 재생');
+
+function updateButtons(){
+  const hasV = !!v.src && v.readyState>0, hasL = lines.length>0;
+  $('play').disabled = !hasV;
+  $('startSync').disabled = !(hasV && hasL);
+  $('tapNext').disabled = !syncing; $('tapOff').disabled = !syncing;
+  const done = cues.some(c=>c.start!=null);
+  $('exportVid').disabled = !(hasV && done); $('copySrt').disabled = !done;
+}
+
+// ---- sync ----
+$('startSync').onclick = ()=>{
+  cues = lines.map(()=>({start:null,end:null}));
+  syncing = true; syncIdx = -1;
+  v.currentTime = 0; v.play();
+  $('syncStatus').textContent = '첫 줄이 시작될 때 ‘다음 줄’을 누르세요';
+  renderList(); updateButtons();
+};
+function tapNext(){
+  if(!syncing) return;
+  const t = +v.currentTime.toFixed(2);
+  if (syncIdx>=0 && cues[syncIdx].end==null) cues[syncIdx].end = t;
+  syncIdx++;
+  if (syncIdx < lines.length){ cues[syncIdx].start = t; cues[syncIdx].end = null;
+    $('syncStatus').textContent = `${syncIdx+1} / ${lines.length}`; }
+  if (syncIdx >= lines.length-1 && syncIdx>=lines.length) finishSync();
+  renderList(); updateButtons();
+}
+function tapOff(){
+  if(!syncing || syncIdx<0) return;
+  if (cues[syncIdx].end==null) cues[syncIdx].end = +v.currentTime.toFixed(2);
+  if (syncIdx === lines.length-1) finishSync();
+  renderList();
+}
+function finishSync(){
+  syncing=false;
+  $('syncStatus').textContent='싱크 완료! 미리보기로 확인해 보세요';
+  updateButtons();
+}
+v.addEventListener('ended', ()=>{
+  if(syncing){ if(syncIdx>=0 && cues[syncIdx] && cues[syncIdx].end==null) cues[syncIdx].end = +v.duration.toFixed(2); finishSync(); renderList(); }
+});
+$('tapNext').onclick = tapNext; $('tapOff').onclick = tapOff;
+document.addEventListener('keydown', e=>{
+  if (e.target.tagName==='TEXTAREA' || e.target.tagName==='INPUT') return;
+  if (e.code==='Space'){ e.preventDefault(); syncing ? tapNext() : $('play').click(); }
+  if (e.key==='x' || e.key==='X') tapOff();
+});
+
+function endOf(i){
+  const c = cues[i]; if (c.start==null) return null;
+  if (c.end!=null) return c.end;
+  for (let j=i+1;j<cues.length;j++) if (cues[j].start!=null) return cues[j].start;
+  return v.duration || c.start+4;
+}
+function activeAt(t){
+  for (let i=cues.length-1;i>=0;i--){ const s=cues[i].start; if(s!=null && t>=s){ const e=endOf(i); return t<e ? i : -1; } }
+  return -1;
+}
+
+function renderList(){
+  const ol = $('list'); ol.innerHTML='';
+  lines.forEach((ln,i)=>{
+    const li = document.createElement('li'); li.dataset.i=i;
+    const c = cues[i]||{};
+    li.innerHTML = `<span class="n">${i+1}</span><span class="tx"></span><input data-k="start" inputmode="decimal" value="${c.start??''}" placeholder="시작"><input data-k="end" inputmode="decimal" value="${c.end??''}" placeholder="끝">`;
+    li.querySelector('.tx').textContent = ln;
+    li.querySelector('.tx').onclick = ()=>{ if(c.start!=null){ v.currentTime=c.start; } };
+    li.querySelectorAll('input').forEach(inp=>inp.onchange=()=>{
+      const val = inp.value.trim()===''? null : parseFloat(inp.value);
+      cues[i][inp.dataset.k] = isNaN(val)? null : val; updateButtons();
+    });
+    ol.appendChild(li);
+  });
+}
+
+// ---- preview ----
+function applyStyle(){
+  const h = stage.clientHeight;
+  cap.style.top = style.pos+'%';
+  cap.style.fontSize = (h*style.size/100)+'px';
+  cap.style.letterSpacing = style.ls+'em';
+  cap.style.fontWeight = style.wt;
+  $('posV').textContent = style.pos+'%'; $('sizeV').textContent = style.size; $('lsV').textContent = style.ls; $('wtV').textContent = style.wt==300?'얇게':'보통';
+}
+['pos','size','ls','wt'].forEach(k=>$(k).addEventListener('input',e=>{ style[k]=+e.target.value; applyStyle(); }));
+new ResizeObserver(applyStyle).observe(stage);
+let lastActive=-2;
+function tick(){
+  const i = activeAt(v.currentTime);
+  if (i!==lastActive){
+    lastActive=i;
+    cap.textContent = i>=0 ? lines[i] : '';
+    cap.style.opacity = i>=0 ? 1 : 0;
+    document.querySelectorAll('#list li').forEach(li=>li.classList.toggle('now', +li.dataset.i===i));
+  }
+  requestAnimationFrame(tick);
+}
+applyStyle(); requestAnimationFrame(tick);
+
+// ---- SRT ----
+function fmt(t){ const ms=Math.round(t*1000), h=Math.floor(ms/3600000), m=Math.floor(ms%3600000/60000), s=Math.floor(ms%60000/1000), r=ms%1000;
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')},${String(r).padStart(3,'0')}`; }
+function buildSrt(){
+  let n=0, out='';
+  cues.forEach((c,i)=>{ if(c.start==null) return; n++; out += `${n}\n${fmt(c.start)} --> ${fmt(endOf(i))}\n${lines[i]}\n\n`; });
+  return out;
+}
+$('copySrt').onclick = async ()=>{
+  const srt = buildSrt(); const box=$('srtBox'); box.hidden=false; box.value=srt;
+  try { await navigator.clipboard.writeText(srt); $('expStatus').textContent='SRT를 복사했어요'; }
+  catch(e){ box.select(); $('expStatus').textContent='아래 내용을 직접 복사하세요'; }
+};
+
+let dl=null;
+try { window.claude && claude.use && claude.use('downloads').then(d=>{ dl=d; if(d) $('saveSrt').hidden=false; }); } catch(e){}
+async function saveFile(name, data){
+  const st=$('expStatus');
+  if(!dl){ st.textContent='이 화면에서는 저장이 안 돼요. 영상을 길게 누르거나 우클릭 → 동영상 저장을 이용하세요'; return; }
+  try { await dl.save({filename:name, data}); st.textContent='저장했어요'; }
+  catch(e){ st.textContent = e && e.code==='declined' ? '저장을 취소했어요' : '저장 실패: '+(e&&e.message||e); }
+}
+$('saveSrt').onclick=()=>saveFile('lyrics.txt', buildSrt());
+
+// ---- video export ----
+function drawSpaced(ctx, text, cx, cy, spacingPx){
+  const chars=[...text]; const widths=chars.map(ch=>ctx.measureText(ch).width);
+  const total = widths.reduce((a,b)=>a+b,0) + spacingPx*(chars.length-1);
+  let x = cx - total/2;
+  chars.forEach((ch,k)=>{ ctx.fillText(ch, x, cy); x += widths[k]+spacingPx; });
+}
+$('exportVid').onclick = async ()=>{
+  if (syncing) finishSync();
+  const btn=$('exportVid'); btn.disabled=true;
+  const st=$('expStatus');
+  try{
+    await document.fonts.load(`${style.wt} 40px "Noto Sans KR"`);
+    const W=v.videoWidth, H=v.videoHeight;
+    const cv=document.createElement('canvas'); cv.width=W; cv.height=H;
+    const ctx=cv.getContext('2d');
+    const fs=H*style.size/100;
+    ctx.font=`${style.wt} ${fs}px "Noto Sans KR", sans-serif`;
+    ctx.textBaseline='middle'; ctx.fillStyle='#fff';
+    const stream=cv.captureStream(30);
+    try{
+      const ac=new (window.AudioContext||window.webkitAudioContext)();
+      if(!v._src){ v._src=ac.createMediaElementSource(v); v._ac=ac; }
+      const dest=v._ac.createMediaStreamDestination();
+      v._src.connect(dest); v._src.connect(v._ac.destination);
+      dest.stream.getAudioTracks().forEach(t=>stream.addTrack(t));
+      if(v._ac.state==='suspended') await v._ac.resume();
+    }catch(e){ console.log('audio capture failed', e); }
+    const types=['video/mp4;codecs=avc1,mp4a','video/mp4','video/webm;codecs=vp9,opus','video/webm'];
+    const mime=types.find(t=>window.MediaRecorder && MediaRecorder.isTypeSupported(t))||'';
+    const rec=new MediaRecorder(stream, mime?{mimeType:mime, videoBitsPerSecond:12e6}:{});
+    const chunks=[]; rec.ondataavailable=e=>e.data.size&&chunks.push(e.data);
+    const ext = (mime.includes('mp4')?'mp4':'webm');
+    rec.onstop=()=>{
+      const blob=new Blob(chunks,{type:mime||'video/webm'}); const url=URL.createObjectURL(blob);
+      $('out').innerHTML=`<video controls playsinline src="${url}"></video><div class="row" style="margin-top:8px"><button id="saveVid" class="main">영상 파일로 저장</button></div>`;
+      $('saveVid').onclick=()=>saveFile(`lyrics_subtitled.${ext}`, blob);
+      st.textContent='완성! 아래 버튼으로 저장하세요';
+      btn.disabled=false;
+    };
+    v.pause(); v.currentTime=0;
+    await new Promise(r=>v.addEventListener('seeked',r,{once:true}));
+    let raf;
+    const draw=()=>{
+      ctx.drawImage(v,0,0,W,H);
+      const i=activeAt(v.currentTime);
+      if(i>=0){
+        const s=cues[i].start, e=endOf(i), t=v.currentTime;
+        const a=Math.min(1,(t-s)/0.25,(e-t)/0.25);
+        ctx.save(); ctx.globalAlpha=Math.max(0,a);
+        ctx.shadowColor='rgba(0,0,0,.45)'; ctx.shadowBlur=fs*0.35;
+        drawSpaced(ctx, lines[i], W/2, H*style.pos/100, fs*style.ls);
+        ctx.restore();
+      }
+      st.textContent=`녹화 중… ${Math.floor(v.currentTime)} / ${Math.floor(v.duration)}초`;
+      if(!v.ended) raf=requestAnimationFrame(draw);
+    };
+    v.addEventListener('ended',()=>{ cancelAnimationFrame(raf); setTimeout(()=>rec.stop(),200); },{once:true});
+    rec.start(250); await v.play(); draw();
+  }catch(e){ st.textContent='영상 만들기에 실패했어요: '+e.message+' — SRT 복사를 이용하세요'; btn.disabled=false; }
+};
+</script>
+</body>
+</html>

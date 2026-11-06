@@ -1,0 +1,440 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LANEIGE Wonder Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* 참고 제안서와 같은 문법: 16:9 슬라이드 세로 스택, 상단 탭 띠, 가운데 제목, 박스형 본문. 라네즈 블루를 주색으로, 핑크는 보조 */
+:root{
+  --page:#eef2f8; --slide:#ffffff; --band:#cddbf0; --band-deep:#9fb6dc;
+  --ink:#24304a; --muted:#73809a; --accent:#2f5aa8; --pink:#c25a7c; --soft:#f4f7fc; --line:#dfe6f2;
+  --f-display:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{background:var(--page)}
+body{margin:0;color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;word-break:keep-all}
+img{max-width:100%}
+.deck{max-width:1120px;margin:0 auto;padding:32px 16px 48px;display:grid;gap:28px}
+.slide{background:var(--slide);border-radius:18px;box-shadow:0 1px 0 var(--line),0 10px 30px -18px rgba(40,70,130,.35);overflow:hidden;display:flex;flex-direction:column}
+.band{background:var(--band);height:42px;display:grid;grid-template-columns:auto 1fr auto;align-items:end;padding-right:20px}
+.logo{background:var(--slide);border-radius:12px 12px 0 0;margin-left:20px;padding:7px 16px 6px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.28em;font-weight:500;color:var(--accent)}
+.band .sec{text-align:center;font-size:.72rem;color:#3f5578;align-self:center;letter-spacing:.04em}
+.band .no{font-family:var(--f-mono);font-size:.72rem;color:#3f5578;align-self:center}
+.body{padding:36px clamp(18px,4vw,52px) 40px;flex:1;display:flex;flex-direction:column;gap:26px}
+.ttl{text-align:center;display:grid;gap:6px}
+.ttl h2{font-family:var(--f-display);font-size:clamp(1.25rem,2.6vw,1.7rem);font-weight:700;text-wrap:balance;line-height:1.4;margin:0}
+.ttl p{color:var(--muted);font-size:.9rem;margin:0}
+h3{font-size:1rem;margin:0;font-weight:700}
+p{margin:0}
+.pill{display:inline-block;justify-self:start;background:var(--band-deep);color:#fff;font-size:.74rem;font-weight:700;padding:3px 12px;border-radius:999px}
+.pill.ghost{background:var(--soft);color:var(--accent);border:1px solid var(--line)}
+.box{background:var(--soft);border-radius:12px;padding:18px;display:grid;gap:10px;align-content:start;min-width:0}
+.box.white{background:#fff;border:1px solid var(--line)}
+.g2,.g3,.g4{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.small{font-size:.84rem;color:var(--muted)}
+.note{font-size:.72rem;color:var(--muted);text-align:center}
+.line{text-align:center;font-size:.95rem}
+.line b{color:var(--accent)}
+ul.tight{margin:0;padding-left:18px;display:grid;gap:3px;font-size:.88rem}
+.num{font-family:var(--f-display);font-weight:900;color:var(--accent);font-size:1.9rem;line-height:1.1}
+
+/* cover */
+.cover .body{justify-content:center;align-items:center;text-align:center;gap:18px;padding-block:56px}
+.kicker{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.2em;color:var(--muted)}
+.cover h1{font-family:var(--f-display);margin:0;line-height:1.25}
+.cover h1 small{display:block;font-size:clamp(1.05rem,2.6vw,1.5rem);font-weight:500}
+.cover h1 b{display:block;font-size:clamp(2.2rem,6.4vw,4.2rem);font-weight:900;color:var(--accent)}
+.cover .sub{background:var(--soft);border-radius:999px;padding:8px 22px;color:var(--muted);font-size:.92rem}
+.strip{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;width:100%;max-width:820px}
+.strip img{border-radius:12px;aspect-ratio:1;object-fit:contain;background:#fff;border:1px solid var(--line);width:100%}
+.cover .foot{border-top:1px solid var(--line);width:100%;padding-top:16px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;font-size:.8rem;color:var(--muted)}
+@media (max-width:560px){.strip{grid-template-columns:repeat(3,1fr)}}
+
+/* what if */
+.whatif{display:grid;gap:10px}
+.wi{display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:14px;align-items:center;background:var(--soft);border-radius:12px;padding:12px 16px}
+.wi img{width:72px;height:72px;object-fit:contain;background:#fff;border-radius:10px;border:1px solid var(--line)}
+.wi q{font-family:var(--f-display);font-weight:700;font-size:1rem;quotes:"“" "”"}
+.wi .ans{font-size:.82rem;color:var(--muted)}
+.wi .tag{font-family:var(--f-mono);font-size:.74rem;color:var(--accent);background:#fff;border:1px solid var(--line);border-radius:999px;padding:2px 10px;white-space:nowrap}
+@media (max-width:560px){.wi{grid-template-columns:56px minmax(0,1fr)}.wi img{width:56px;height:56px}.wi .tag{grid-column:2;justify-self:start}}
+
+/* pillars */
+.pl{display:grid;gap:10px;align-content:start}
+.pl .k{font-family:var(--f-mono);font-size:.72rem;color:var(--accent);letter-spacing:.12em}
+.pl h3{font-family:var(--f-display);font-size:1.05rem}
+.pl .imgs{display:flex;gap:6px}
+.pl .imgs img{width:54px;height:54px;object-fit:contain;background:#fff;border-radius:8px;border:1px solid var(--line)}
+.pl .proof{font-family:var(--f-mono);font-size:.76rem;background:#fff;border-radius:8px;padding:6px 10px;color:var(--accent)}
+
+/* products */
+.prd{display:grid;grid-template-columns:88px minmax(0,1fr);gap:14px;align-items:start}
+.prd img{width:88px;height:88px;object-fit:contain;background:#fff;border-radius:10px;border:1px solid var(--line)}
+.meta{font-family:var(--f-mono);font-size:.74rem;color:var(--muted)}
+.meta b{color:var(--accent);font-weight:500}
+.kw{display:flex;flex-wrap:wrap;gap:4px}
+.kw span{font-size:.72rem;background:#fff;border:1px solid var(--line);border-radius:999px;padding:1px 8px}
+.voc{font-size:.85rem;border-left:2px solid var(--band-deep);padding-left:10px}
+.voc.stat{border-left:0;padding:6px 10px;background:#fff;border-radius:8px;font-family:var(--f-mono);font-size:.76rem;color:var(--accent)}
+.fit{font-size:.78rem;color:var(--pink)}
+
+/* persona */
+.tabs{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.tabs button{font:inherit;font-size:.86rem;border:1px solid var(--line);background:#fff;color:var(--ink);padding:6px 16px;border-radius:999px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ps{display:grid;grid-template-columns:120px minmax(0,1fr);gap:18px;align-items:start}
+.avatar{width:120px;height:120px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-size:2.2rem;font-weight:900;color:#fff}
+dl.pf{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:.88rem}
+dl.pf dt{color:var(--accent);font-weight:700;font-size:.76rem;padding-top:2px}
+dl.pf dd{margin:0}
+@media (max-width:520px){.ps{grid-template-columns:1fr}.avatar{width:84px;height:84px;font-size:1.6rem}}
+.jr{overflow-x:auto}
+.jrow{display:grid;grid-template-columns:repeat(5,minmax(160px,1fr));gap:10px;min-width:840px}
+.jc{background:var(--soft);border-radius:12px;padding:14px;display:grid;gap:8px;align-content:start}
+.jc time{font-family:var(--f-mono);font-size:.78rem;color:var(--accent);font-weight:500}
+.jc .sc{font-weight:700;font-size:.9rem}
+.jc img{width:64px;height:64px;object-fit:contain;background:#fff;border-radius:8px;border:1px solid var(--line)}
+.jc .pr{font-size:.8rem}
+.jc .pain{font-size:.76rem;color:var(--muted)}
+.jc .wow{font-size:.74rem;background:#fff;border-radius:6px;padding:3px 8px;justify-self:start;color:var(--pink);border:1px solid var(--line)}
+
+/* matrix */
+.tbl{overflow-x:auto;border-radius:12px;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;min-width:700px;font-size:.84rem}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--band);color:#2f4567;font-size:.76rem}
+tr:last-child td{border-bottom:0}
+td.c{text-align:center;color:var(--accent);font-weight:700}
+
+/* concept */
+.hero{background:linear-gradient(180deg,var(--soft),#fff);border-radius:14px;padding:28px;text-align:center;display:grid;gap:10px;justify-items:center}
+.hero .key{font-family:var(--f-mono);letter-spacing:.24em;font-size:.78rem;color:var(--muted)}
+.hero .name{font-family:var(--f-display);font-size:clamp(1.8rem,5vw,3rem);font-weight:900;color:var(--accent);line-height:1.1}
+.room{display:grid;gap:10px;align-content:start}
+.room .sense{display:flex;align-items:center;gap:8px}
+.room .sense i{font-style:normal;width:34px;height:34px;border-radius:50%;background:var(--band);display:grid;place-items:center;font-size:.8rem;font-weight:700;color:#2f4567;flex:none}
+.room .q{font-family:var(--f-display);font-weight:700;font-size:.92rem;color:var(--accent)}
+.room .imgs{display:flex;gap:6px}
+.room .imgs img{width:52px;height:52px;object-fit:contain;background:#fff;border-radius:8px;border:1px solid var(--line)}
+.room .act{font-size:.86rem}
+.room .why{font-size:.76rem;color:var(--muted)}
+
+/* plan */
+.planwrap{overflow-x:auto}
+.plan{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,minmax(84px,auto));gap:8px;min-width:640px}
+.cell{border:1.5px dashed var(--band-deep);border-radius:10px;padding:10px;display:grid;align-content:center;gap:2px;background:#fff;font-size:.8rem}
+.cell b{font-size:.86rem}
+.cell .n{font-family:var(--f-mono);color:#fff;background:var(--accent);border-radius:50%;width:22px;height:22px;display:grid;place-items:center;font-size:.72rem}
+.cell.fill{background:var(--soft);border-style:solid;border-color:var(--line)}
+.cell.exit{background:var(--band);border-style:solid;border-color:var(--band)}
+
+/* pouch */
+.pouches{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 16px}
+@media (max-width:620px){.pouches{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pc{display:grid;gap:6px;justify-items:center;text-align:center}
+.pouch{position:relative;width:100%;max-width:170px;aspect-ratio:3/2;border-radius:14px;background-color:var(--c);
+  background-image:radial-gradient(rgba(255,255,255,.22) 32%,transparent 36%),radial-gradient(rgba(0,0,0,.10) 32%,transparent 36%);
+  background-size:9px 9px;background-position:0 0,4.5px 4.5px;box-shadow:inset 0 -6px 0 rgba(0,0,0,.08),0 6px 14px -8px rgba(40,50,80,.45)}
+.pouch::before{content:"";position:absolute;left:0;right:0;top:0;height:52%;border-radius:14px 14px 40% 40%/14px 14px 22px 22px;background:inherit;box-shadow:0 3px 0 rgba(0,0,0,.10)}
+.pouch::after{content:"";position:absolute;left:50%;top:44%;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff,#c9c9c9 60%,#9a9a9a);box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.pouch .lbl{position:absolute;right:-7px;top:62%;z-index:1;background:#fbf8f2;color:#4a4f5a;font-family:var(--f-mono);font-size:.5rem;letter-spacing:.16em;padding:3px 6px 3px 8px;border-radius:2px 3px 3px 2px;box-shadow:0 1px 2px rgba(0,0,0,.18)}
+.pc b{font-size:.84rem}
+.pc span{font-size:.72rem;color:var(--muted)}
+.pc .who{font-size:.72rem;color:var(--pink)}
+.pc .hex{font-family:var(--f-mono);font-size:.68rem}
+
+.stack{display:flex}
+.stack img{width:70px;height:70px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:10px;margin-right:-14px}
+.kpi{display:grid;gap:4px;text-align:center}
+.kpi span{font-size:.82rem}
+.when{font-family:var(--f-mono);font-size:.76rem;color:var(--accent)}
+</style>
+</head>
+<body>
+<main class="deck">
+
+<!-- 01 cover -->
+<section class="slide cover">
+  <div class="band"><span class="logo">LANEIGE</span><span class="sec"></span><span class="no"></span></div>
+  <div class="body">
+    <span class="kicker">LANEIGE × MUSINSA BEAUTY SEONGSU · 2027</span>
+    <h1><small>“만약에?”에서 시작한 스킨케어를, 옷처럼 입어보다</small><b>WONDER ROOM</b></h1>
+    <p class="sub">무신사 뷰티 성수 팝업 · 온라인 입점 제안서</p>
+    <div class="strip">
+      <img src="img/creamskin.jpg" alt="크림 스킨">
+      <img src="img/gel.jpg" alt="워터뱅크 젤 크림">
+      <img src="img/bfmask.jpg" alt="바운시 앤 펌 슬리핑 마스크">
+      <img src="img/lipmask.jpg" alt="립 슬리핑 마스크 EX">
+      <img src="img/water.jpg" alt="워터 슬리핑 마스크">
+      <img src="img/neo.jpg" alt="네오 쿠션 더 매트">
+    </div>
+    <div class="foot"><span>LANEIGE Brand MD</span><span>DRAFT v1.0 · 2026.10.29</span><span>실습용 · 가격과 KPI는 가정치</span></div>
+  </div>
+</section>
+
+<!-- 02 summary -->
+<section class="slide">
+  <div class="band"><span class="logo">LANEIGE</span><span class="sec">제안 요약</span><span class="no">02</span></div>
+  <div class="body">
+    <div class="ttl"><h2>호기심으로 만든 제품을,<br>무신사 고객이 옷 고르듯 ‘입어보고’ 가져가게 합니다</h2></div>
+    <div class="g3">
+      <div class="box"><span class="pill">왜 라네즈</span><h3>“만약에?”가 만든 4개의 기술 축</h3><p class="small">수분 · 효능 · 슬리핑 뷰티 · 하이브리드. 경쟁사가 따라 하기 어려운 ‘처음 만든 제품’이 많은 브랜드</p></div>
+      <div class="box"><span class="pill">누구에게</span><h3>성수에서 하루를 보내는 4명의 페르소나</h3><p class="small">출근룩 직장인 · 향 수집 대학생 · 야근·여행러 · 첫 효능 케어러. 각자의 하루 속 ‘불편한 순간’에 라네즈가 답함</p></div>
+      <div class="box"><span class="pill">어떻게</span><h3>WONDER ROOM + 니트 미니 파우치</h3><p class="small">4개의 “만약에” 방을 지나며 내 피부 무드를 피팅하고, 제품 색을 옮긴 니트 파우치를 룩의 액세서리로 가져감</p></div>
+    </div>
+    <p class="line">무대: <b>무신사 뷰티 성수 팝업</b> → <b>무신사 뷰티 온라인 단독 기획전</b>으로 이어지는 한 시즌</p>
+  </div>
+</section>
+
+<!-- 03 brand -->
+<section class="slide">
+  <div class="band"><span class="logo">LANEIGE</span><span class="sec">브랜드 철학</span><span class="no">03</span></div>
+  <div class="body">
+    <div class="ttl"><h2>OPEN TO WONDER — 아름다움을 향한 끝없는 호기심</h2><p>라네즈의 대표 제품은 모두 “만약에?”라는 질문에서 태어났습니다</p></div>
+    <div class="whatif">
+      <div class="wi"><img src="img/creamskin.jpg" alt="크림 스킨"><div><q>크림 한 통을 녹여 토너를 만들면?</q><p class="ans">→ 크림 스킨 · 물처럼 가벼운데 크림처럼 촉촉한 토너</p></div><span class="tag">HYDRATION</span></div>
+      <div class="wi"><img src="img/lipmask.jpg" alt="립 슬리핑 마스크"><div><q>립밤과 슬리핑 마스크를 하나로 합치면?</q><p class="ans">→ 립 슬리핑 마스크 · 자고 일어나면 매끈한 입술</p></div><span class="tag">SLEEPING</span></div>
+      <div class="wi"><img src="img/gel.jpg" alt="워터뱅크"><div><q>히알루론산을 잘게 쪼개 깊이 스며들게 하면?</q><p class="ans">→ 워터뱅크 블루 히알루로닉 · 겉보습을 넘어 속보습까지</p></div><span class="tag">HYDRATION</span></div>
+      <div class="wi"><img src="img/neo.jpg" alt="네오 쿠션"><div><q>메이크업이 스킨케어까지 해준다면?</q><p class="ans">→ 네오 쿠션 · 커버하면서 피부를 지키는 하이브리드</p></div><span class="tag">HYBRID</span></div>
+    </div>
+    <p class="line">호기심은 <b>복잡한 것을 쉽게</b>, <b>규칙으로부터 자유롭게</b>, <b>나를 나답게</b> 만드는 힘 — 무신사 고객이 옷으로 하는 일과 같습니다</p>
+  </div>
+</section>
+
+<!-- 04 pillars -->
+<section class="slide">
+  <div class="band"><span class="logo">LANEIGE</span><span class="sec">제품 강점 · 4 PILLARS</span><span class="no">04</span></div>
+  <div class="body">
+    <div class="ttl"><h2>라네즈를 떠받치는 4개의 기술 축</h2><p>공식 브랜드 스토리 ‘THE CORE PRODUCT PILLARS’ 기준</p></div>
+    <div class="g4">
+      <div class="box pl"><span class="k">01 · BEYOND HYDRATION</span><h3>수분을 넘어선 수분</h3><div class="imgs"><img src="img/gel.jpg" alt=""><img src="img/moist.jpg" alt=""><img src="img/creamskin.jpg" alt=""></div><p class="small">모든 피부 고민의 시작인 수분 부족을 해결. 모든 피부 타입이 쓰는 제형 혁신</p><p class="proof">젤 크림 수분량 +139%</p></div>
+      <div class="box pl"><span class="k">02 · EFFICACY-DRIVEN</span><h3>눈에 보이는 효능</h3><div class="imgs"><img src="img/bfmask.jpg" alt=""><img src="img/rcream.jpg" alt=""><img src="img/renew.jpg" alt=""></div><p class="small">탄력(바운시 앤 펌) · 광채(래디언-C) · 주름(퍼펙트 리뉴) 3개 효과 라인</p><p class="proof">래디언씨 칙칙함 −30% (2주)</p></div>
+      <div class="box pl"><span class="k">03 · SLEEPING BEAUTY</span><h3>자는 동안의 골든 타임</h3><div class="imgs"><img src="img/water.jpg" alt=""><img src="img/lipmask.jpg" alt=""><img src="img/bfeye.jpg" alt=""></div><p class="small">슬리핑 카테고리의 선구자. 얼굴·입술·눈가를 밤사이 각각 관리</p><p class="proof">립 슬리핑 마스크 2초에 1개 판매</p></div>
+      <div class="box pl"><span class="k">04 · HYBRID SKINCARE</span><h3>스킨케어의 힘, 메이크업의 임팩트</h3><div class="imgs"><img src="img/neo.jpg" alt=""><img src="img/powder.jpg" alt=""></div><p class="small">피부를 보호하면서 커버와 톤까지. 네오 쿠션 · 스킨 베일 베이스</p><p class="proof">네오 쿠션 100시간 지속</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05-06 products -->
+<section class="slide">
+  <div class="band"><span class="logo">LANEIGE</span><span class="sec">제품별 강점 · 수분 & 효능</span><span class="no">05</span></div>
+  <div class="body">
+    <div class="ttl"><h2>고객 리뷰가 증명하는 제품력 ①</h2><p>아모레몰 리뷰 수 · 별점 · 반복 키워드 / 공식 효능 수치</p></div>
+    <div class="g2" id="p1"></div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="band"><span class="logo">LANEIGE</span><span class="sec">제품별 강점 · 슬리핑 & 하이브리드 & 립</span><span class="no">06</span></div>
+  <div class="body">
+    <div class="ttl"><h2>고객 리뷰가 증명하는 제품력 ②</h2><p>분홍 글씨는 ‘이 제품이 가장 빛나는 순간’</p></div>
+    <div class="g2" id="p2"></div>
+  </div>
+</section>
+
+<!-- 07 persona -->
+<section class="slide">
+  <div class="band"><span class="logo">LANEIGE</span><span class="sec">페르소나 & 라이프스타일 여정</span><span class="no">07</span></div>
+  <div class="body">
+    <div class="ttl"><h2>성수에서 하루를 보내는 네 사람, 각자의 ‘라네즈 순간’</h2><p>탭을 눌러 페르소나별 하루를 확인하세요</p></div>
+    <div class="tabs" role="tablist" id="ptabs"></div>
+    <div class="box white"><div class="ps" id="pprof"></div></div>
+    <div class="jr"><div class="jrow" id="pjour"></div></div>
+  </div>
+</section>
+
+<!-- 08 matrix -->
+<section class="slide">
+  <div class="band"><span class="logo">LANEIGE</span><span class="sec">페르소나 × 제품</span><span class="no">08</span></div>
+  <div class="body">
+    <div class="ttl"><h2>누가, 언제, 무엇으로 만족하는가</h2><p>팝업 동선과 온라인 기획세트를 이 표에서 그대로 뽑습니다</p></div>
+    <div class="tbl"><table>
+      <thead><tr><th>페르소나</th><th>불편한 순간</th><th>해결 제품</th><th>만족 포인트(리뷰 언어)</th><th>파우치 컬러</th></tr></thead>
+      <tbody>
+        <tr><td><b>지수 · 출근룩 직장인</b></td><td>오후 3시, 무너진 베이스</td><td>네오 쿠션 더 매트 · 블러링 파우더</td><td>“저녁까지 수정 없이 버팀”</td><td>MINT GREEN</td></tr>
+        <tr><td><b>하린 · 향 수집 대학생</b></td><td>매일 같은 립, 지루한 파우치</td><td>립 글로이 밤 · 립 슬리핑 마스크 · 바운시 립</td><td>“향마다 하나씩 모으는 중”</td><td>PINK BERRY</td></tr>
+        <tr><td><b>서연 · 야근·여행러</b></td><td>건조한 사무실·기내, 푸석한 아침</td><td>크림 스킨 · 워터뱅크 젤 크림 · 워터 슬리핑 마스크</td><td>“다음 날 화장이 잘 먹음”</td><td>WATER BLUE · CREAM</td></tr>
+        <tr><td><b>민지 · 첫 효능 케어러</b></td><td>칙칙한 톤, 잠 부족한 눈가</td><td>래디언씨 · 바운시 앤 펌 · 아이 슬리핑 마스크</td><td>“아침 눈가가 산뜻”</td><td>LIGHT YELLOW · LAVENDER</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 09 concept -->
+<section class="slide">
+  <div class="band"><span class="logo">LANEIGE</span><span class="sec">팝업 컨셉</span><span class="no">09</span></div>
+  <div class="body">
+    <div class="hero">
+      <span class="key">OPEN TO WONDER · TRY ON YOUR SKIN</span>
+      <span class="name">LANEIGE WONDER ROOM</span>
+      <p>네 개의 “만약에?” 방을 지나며 내 피부에 맞는 라네즈를 피팅하는 실험실 같은 피팅룸</p>
+    </div>
+    <div class="g3">
+      <div class="box"><span class="pill ghost">브랜드 톤</span><p class="small">맑은 블루와 물빛, 투명 아크릴, 유리 같은 질감. 라네즈(눈)의 깨끗함을 성수 공장 건물 콘크리트 위에 대비</p></div>
+      <div class="box"><span class="pill ghost">무신사다움</span><p class="small">제품을 옷처럼 행거에 걸고, 피팅 부스에서 입어보고, 니트 파우치를 룩 액세서리로 매칭</p></div>
+      <div class="box"><span class="pill ghost">남는 것</span><p class="small">‘WONDER CARD’ 한 장 — 내 피부 질문과 답, 추천 조합, 무신사 앱 QR</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 rooms -->
+<section class="slide">
+  <div class="band"><span class="logo">LANEIGE</span><span class="sec">존 구성</span><span class="no">10</span></div>
+  <div class="body">
+    <div class="ttl"><h2>4 PILLARS = 4개의 방</h2><p>각 방의 입구에 “만약에?” 질문, 안에서 직접 답을 체험</p></div>
+    <div class="g4">
+      <div class="box room"><div class="sense"><i>1</i><h3>WATER ROOM</h3></div><p class="q">만약에, 크림이 물처럼 흐른다면?</p><div class="imgs"><img src="img/creamskin.jpg" alt=""><img src="img/gel.jpg" alt=""></div><p class="act">물결 조명 아래 크림 스킨을 손등에 흘려보고, 수분 측정기로 전후 비교</p><p class="why">서연 · 수분 측정 결과를 카드에 기록</p></div>
+      <div class="box room"><div class="sense"><i>2</i><h3>EFFECT LAB</h3></div><p class="q">만약에, 2주 뒤 피부를 미리 본다면?</p><div class="imgs"><img src="img/rcream.jpg" alt=""><img src="img/bfmask.jpg" alt=""><img src="img/renew.jpg" alt=""></div><p class="act">톤·탄력 진단 거울로 고민을 고르고, 래디언씨 · 바운시 앤 펌 · 퍼펙트 리뉴 중 처방</p><p class="why">민지 · 첫 효능 라인 입문</p></div>
+      <div class="box room"><div class="sense"><i>3</i><h3>SLEEPING ROOM</h3></div><p class="q">만약에, 자는 동안 피부가 일한다면?</p><div class="imgs"><img src="img/water.jpg" alt=""><img src="img/lipmask.jpg" alt=""><img src="img/bfeye.jpg" alt=""></div><p class="act">라벤더 조명의 침실 세트, 립 슬리핑 마스크 향 9종 시향 바와 ‘내일 아침’ 포토월</p><p class="why">하린 · 향 수집 / 서연 · 야간 케어</p></div>
+      <div class="box room"><div class="sense"><i>4</i><h3>FITTING BOOTH</h3></div><p class="q">만약에, 메이크업이 스킨케어라면?</p><div class="imgs"><img src="img/neo.jpg" alt=""><img src="img/powder.jpg" alt=""></div><p class="act">커튼 달린 1인 부스에서 오늘 입은 옷에 맞춰 네오 셰이드 · 립 컬러를 피팅</p><p class="why">지수 · 지속력 직접 체감</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 plan -->
+<section class="slide">
+  <div class="band"><span class="logo">LANEIGE</span><span class="sec">공간 동선</span><span class="no">11</span></div>
+  <div class="body">
+    <div class="ttl"><h2>질문으로 들어와서, 나만의 답을 들고 나간다</h2><p>성수 팝업 기준 · 목표 체류 20분(가정)</p></div>
+    <div class="planwrap"><div class="plan">
+      <div class="cell exit" style="grid-column:1;grid-row:1 / span 3"><span class="n">0</span><b>ENTRANCE</b><span>“만약에?” 질문 벽 · 내 질문 고르고 WONDER CARD 받기</span></div>
+      <div class="cell fill" style="grid-column:2;grid-row:1"><span class="n">1</span><b>WATER ROOM</b><span>수분 측정</span></div>
+      <div class="cell fill" style="grid-column:3;grid-row:1"><span class="n">2</span><b>EFFECT LAB</b><span>톤·탄력 진단</span></div>
+      <div class="cell fill" style="grid-column:4;grid-row:1 / span 2"><span class="n">3</span><b>SLEEPING ROOM</b><span>침실 세트 · 립 마스크 향 바 · 포토월</span></div>
+      <div class="cell" style="grid-column:2 / span 2;grid-row:2"><span class="n">4</span><b>FITTING BOOTH × 4</b><span>네오·립 피팅 · 10분 예약제</span></div>
+      <div class="cell exit" style="grid-column:2 / span 3;grid-row:3"><span class="n">5</span><b>POUCH COUNTER</b><span>카드에 쌓인 답 → 조합 구매 → 내 컬러 니트 파우치 · 무신사 앱 QR</span></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- 12 pouch -->
+<section class="slide">
+  <div class="band"><span class="logo">LANEIGE</span><span class="sec">한정 굿즈</span><span class="no">12</span></div>
+  <div class="body">
+    <div class="ttl"><h2>LANEIGE × MUSINSA 니트 미니 파우치</h2><p>라네즈 제품 색을 부드러운 파스텔로 옮긴 6컬러 한정 파우치 · 립과 카드를 담아 룩의 액세서리로</p></div>
+    <div class="pouches">
+      <div class="pc"><div class="pouch" style="--c:#AEC1DC"><span class="lbl">LANEIGE</span></div><b>WATER BLUE</b><span>워터 블루 · 워터 슬리핑 마스크</span><span class="who">서연의 컬러</span><span class="hex">#AEC1DC</span></div>
+      <div class="pc"><div class="pouch" style="--c:#D9A3B0"><span class="lbl">LANEIGE</span></div><b>PINK BERRY</b><span>핑크 베리 · 립 슬리핑 마스크</span><span class="who">하린의 컬러</span><span class="hex">#D9A3B0</span></div>
+      <div class="pc"><div class="pouch" style="--c:#EFE9DE;outline:1px solid var(--line)"><span class="lbl">LANEIGE</span></div><b>CREAM</b><span>크림 · 크림 스킨</span><span class="who">서연의 컬러</span><span class="hex">#EFE9DE</span></div>
+      <div class="pc"><div class="pouch" style="--c:#B7ACD6"><span class="lbl">LANEIGE</span></div><b>LAVENDER</b><span>라벤더 · 꿀잠 나이트 무드</span><span class="who">민지의 컬러</span><span class="hex">#B7ACD6</span></div>
+      <div class="pc"><div class="pouch" style="--c:#C5D5B8"><span class="lbl">LANEIGE</span></div><b>MINT GREEN</b><span>민트 그린 · 네오 쿠션</span><span class="who">지수의 컬러</span><span class="hex">#C5D5B8</span></div>
+      <div class="pc"><div class="pouch" style="--c:#F3E4A8"><span class="lbl">LANEIGE</span></div><b>LIGHT YELLOW</b><span>연노랑 · 래디언씨</span><span class="who">민지의 컬러</span><span class="hex">#F3E4A8</span></div>
+    </div>
+    <div class="g3">
+      <div class="box"><span class="pill">왜 니트인가</span><p class="small">무신사의 언어는 ‘소재와 핏’. 화장품 색을 니트 소재로 옮겨 뷰티를 패션 아이템으로 번역</p></div>
+      <div class="box"><span class="pill">받는 법</span><p class="small">WONDER ROOM에서 카드를 완성하고 구매하면, 가장 많이 체험한 방의 컬러를 증정</p></div>
+      <div class="box"><span class="pill">다시 오게</span><p class="small">6컬러 모두 모으면 스트랩 증정 · 2주마다 컬러 1종 드롭 · 온라인 선착순 판매</p></div>
+    </div>
+    <p class="note">약 12×8cm · 립 2개와 카드 3장 · 스냅 버튼 · 직조 라벨 · 컬러당 500개(가정)</p>
+  </div>
+</section>
+
+<!-- 13 online -->
+<section class="slide">
+  <div class="band"><span class="logo">LANEIGE</span><span class="sec">온라인 입점 운영</span><span class="no">13</span></div>
+  <div class="body">
+    <div class="ttl"><h2>팝업의 질문을 무신사 앱에서 이어갑니다</h2><p>가격은 실습용 가정치 · 아모레몰 판매가 참고</p></div>
+    <div class="g3">
+      <div class="box white"><span class="pill ghost">WONDER 테스트</span><p class="small">앱에서 “만약에?” 질문 4개에 답하면 페르소나 매칭 · 추천 세트 노출</p></div>
+      <div class="box white"><span class="pill ghost">코디 × 뷰티</span><p class="small">무신사 코디 상세에 ‘이 룩의 피부 무드’ 추천 영역 · 파우치 컬러 매칭</p></div>
+      <div class="box white"><span class="pill ghost">카드 재구매</span><p class="small">팝업 WONDER CARD QR → 앱 장바구니 자동 담기 · 리뷰 작성 시 파우치 응모</p></div>
+    </div>
+    <div class="g4">
+      <div class="box"><div class="stack"><img src="img/neo.jpg" alt=""><img src="img/powder.jpg" alt=""></div><h3>지수의 올데이 핏</h3><p class="small">네오 쿠션 더 매트 + 블러링 파우더 + MINT 파우치</p></div>
+      <div class="box"><div class="stack"><img src="img/glowy.jpg" alt=""><img src="img/lipmask.jpg" alt=""></div><h3>하린의 향 컬렉션</h3><p class="small">립 글로이 밤 + 립 슬리핑 마스크 + PINK 파우치</p></div>
+      <div class="box"><div class="stack"><img src="img/creamskin.jpg" alt=""><img src="img/water.jpg" alt=""></div><h3>서연의 수분 키트</h3><p class="small">크림 스킨 + 워터 슬리핑 마스크 + BLUE 파우치</p></div>
+      <div class="box"><div class="stack"><img src="img/rcream.jpg" alt=""><img src="img/bfeye.jpg" alt=""></div><h3>민지의 첫 효능 키트</h3><p class="small">래디언씨 크림 + 아이 슬리핑 마스크 + YELLOW 파우치</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 kpi -->
+<section class="slide">
+  <div class="band"><span class="logo">LANEIGE</span><span class="sec">기대 효과</span><span class="no">14</span></div>
+  <div class="body">
+    <div class="ttl"><h2>무신사가 얻는 것</h2><p>실습용 가정치 · 실제 목표는 협의 후 확정</p></div>
+    <div class="g4">
+      <div class="box kpi"><span class="num">20분</span><span>팝업 평균 체류</span></div>
+      <div class="box kpi"><span class="num">30%</span><span>현장 구매 전환</span></div>
+      <div class="box kpi"><span class="num">40%</span><span>스냅·리뷰 업로드율</span></div>
+      <div class="box kpi"><span class="num">15%</span><span>카드 QR 앱 재구매율</span></div>
+    </div>
+    <div class="g3">
+      <div class="box"><span class="pill">팝업 MD</span><p class="small">질문 벽과 침실 포토월로 성수 SNS 확산 · 파우치 드롭으로 재방문</p></div>
+      <div class="box"><span class="pill">온라인 MD</span><p class="small">패션 고객을 뷰티 카테고리로 유입 · 페르소나 세트로 객단가 상승</p></div>
+      <div class="box"><span class="pill">공동</span><p class="small">글로벌 슬리핑 마스크 1위 브랜드와의 단독 굿즈 · 무신사 뷰티 차별화</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 next -->
+<section class="slide">
+  <div class="band"><span class="logo">LANEIGE</span><span class="sec">다음 단계</span><span class="no">15</span></div>
+  <div class="body" style="justify-content:center">
+    <div class="ttl"><h2>함께 정하고 싶은 것</h2></div>
+    <div class="g3">
+      <div class="box"><span class="pill">팝업 MD</span><ul class="tight"><li>성수 공간 면적 · 기간</li><li>피팅 부스 예약 운영</li><li>파우치 드롭 일정</li></ul></div>
+      <div class="box"><span class="pill">온라인 MD</span><ul class="tight"><li>WONDER 테스트 노출 위치</li><li>코디 × 뷰티 추천 영역</li><li>페르소나 세트 가격</li></ul></div>
+      <div class="box"><span class="pill">공동</span><ul class="tight"><li>니트 파우치 제작 수량</li><li>목표 KPI 확정</li><li>SNS 공동 캠페인</li></ul></div>
+    </div>
+    <p class="note">출처: 라네즈 공식 브랜드 스토리 ‘OPEN TO WONDER’, 라네즈 공식몰 효능 수치, 아모레몰 상품 리뷰(2026.10.29 수집). 효능에는 개인차가 있습니다.</p>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* [img, 이름, 리뷰수, 별점, 키워드, 리뷰 강점, 공식 수치, 빛나는 순간] */
+const P1=[
+ ["creamskin","크림 스킨","4,821","4.9",["촉촉","화장","미스트","리필"],"물처럼 가볍지만 속이 촉촉, 메이크업 전 밀림 없음","사용 즉시 각질량 −47.6%","출근 전 1분, 토너 하나로 보습 끝"],
+ ["gel","워터뱅크 젤 크림","2,260","4.8",["가벼움","진정","시원"],"여름 수부지 피부에 가볍고 시원, 바로 메이크업 가능","피부 수분량 +139% · −6.3℃ 쿨링","에어컨 사무실에서 당기는 오후"],
+ ["moist","워터뱅크 모이스춰 크림","1,891","4.8",["촉촉","보습","리필"],"건조한 계절의 든든한 정착템","탄성 복원력 +79%","환절기 · 기내처럼 건조한 날"],
+ ["rcream","래디언씨 크림","6,807","4.8",["향","톤","아침"],"상큼한 오렌지 향, 아침에도 바르는 비타민 크림","칙칙함 −30% (2주)","피곤이 얼굴에 드러난 월요일 아침"],
+ ["bfmask","바운시 앤 펌 슬리핑 마스크","1,572","4.8",["향","탄력","모공"],"피오니 향이 잠들기 전 기분까지 바꾸고, 핑크 케이스가 예쁨","탄성 회복력 +51% (8주)","나를 위한 밤 루틴이 필요할 때"],
+ ["renew","퍼펙트 리뉴 3X 세럼","1,508","4.8",["탄력","3구 토출"],"한 번 누르면 세 가지 세럼이 함께 나오는 구조","광채 +100% (4주 자가평가)","첫 안티에이징을 고민하는 20대 후반"]];
+const P2=[
+ ["water","워터 슬리핑 마스크","7,332","4.8",["촉촉","아침","화장"],"샘플로 써보고 본품 구매, 다음 날 화장이 잘 먹는 피부","다음 날 화장 잘 받음 100% · 6세대","야근 후 짧은 잠, 중요한 다음 날"],
+ ["lipmask","립 슬리핑 마스크 EX","17,128","4.9",["각질","베리","향"],"자고 일어나면 각질이 정리돼 립 메이크업이 잘 받음","2초에 1개 판매 · 입술 각질량 −94.6%","침대 옆 협탁, 향 골라 바르는 밤"],
+ ["bfeye","바운시 앤 펌 아이 슬리핑 마스크","931","4.8",["쿨링","붓기"],"바르는 순간 시원하고 아침 눈가가 산뜻","피부 온도 즉시 −5.8℃","밤샘 과제·여행 후 부은 눈가"],
+ ["neo","네오 쿠션 더 매트","73","4.8",["지속","커버"],"아침에 바르고 저녁까지 수정 없이 버팀, 지성 피부 호평","100시간 지속 · 모공 커버 −82%","출근부터 성수 저녁 약속까지"],
+ ["powder","네오 블러링 피니시 파우더","1,928","4.8",["휴대","모공"],"입자가 고와 유분만 잡고, 가루날림 없이 파우치에 쏙","특허 출원 리필망","약속 직전 화장실 거울 앞"],
+ ["glowy","립 글로이 밤","13,619","4.9",["향","패키지","휴대"],"달콤한 캔디 향으로 기분 전환, 선물용 추가 구매","리뷰 13,619건 · 별점 4.9","파우치에서 꺼내는 기분 전환 한 번"]];
+const card=p=>`<div class="box"><div class="prd"><img src="img/${p[0]}.jpg" alt="${p[1]}"><div style="display:grid;gap:6px;min-width:0"><h3>${p[1]}</h3><span class="meta">리뷰 <b>${p[2]}</b> · 별점 <b>${p[3]}</b></span><div class="kw">${p[4].map(w=>`<span>${w}</span>`).join('')}</div></div></div><p class="voc">${p[5]}</p><p class="voc stat">${p[6]}</p><p class="fit">● ${p[7]}</p></div>`;
+document.getElementById('p1').innerHTML=P1.map(card).join('');
+document.getElementById('p2').innerHTML=P2.map(card).join('');
+
+const PS=[
+ {k:"jisu",n:"지수",c:"#9fc1a0",tab:"지수 · 출근룩",prof:[["나이·직업","26 · 성수 패션 브랜드 마케터"],["피부","수부지 · T존 유분"],["라이프","출근룩을 먼저 정하고, 퇴근 후 성수에서 약속"],["고민","오후만 되면 무너지는 베이스, 수정 화장이 귀찮다"],["찾는 것","룩을 하루 종일 지켜주는 베이스"]],
+  j:[["08:00","출근룩 결정","creamskin","크림 스킨 한 번으로 보습 정리","급하게 바르면 밀리는 베이스","밀림 없음"],["08:20","베이스 완성","neo","네오 쿠션 더 매트 한 번","지성이라 오후에 무너짐","100시간 지속"],["15:00","회의 전 점검","powder","블러링 파우더로 유분만","가루 날리는 휴대용 파우더","가루날림 없음"],["19:00","성수 저녁 약속","glowy","립 글로이 밤 덧바르기","건조한 립","캔디 향 기분 전환"],["23:30","리셋","water","워터 슬리핑 마스크","내일 또 화장","다음 날 화장 잘 받음"]]},
+ {k:"harin",n:"하린",c:"#d9a3b0",tab:"하린 · 향 수집",prof:[["나이·직업","21 · 대학생, 무신사 스냅 업로더"],["피부","건성 입술 · 보통 피부"],["라이프","팝업 투어가 취미, 굿즈와 패키지를 모은다"],["고민","매일 같은 립, 남들과 똑같은 파우치"],["찾는 것","고르는 재미와 보여줄 거리"]],
+  j:[["10:00","등교 준비","bflip","바운시 앤 펌 립 트리트먼트","립 각질 때문에 틴트가 뜸","글로시 지속"],["13:00","캠퍼스 점심","glowy","립 글로이 밤 오늘의 향","립밤이 지루함","향 골라 쓰는 재미"],["16:00","성수 팝업 투어","lipmask","향 바에서 9가지 시향","어디서나 같은 체험","향마다 하나씩 수집"],["18:00","스냅 업로드","glowy","니트 파우치 + 립 착샷","보여줄 아이템이 없음","패키지까지 예쁨"],["24:00","잠들기 전","lipmask","립 슬리핑 마스크 베리","아침 입술 각질","각질량 −94.6%"]]},
+ {k:"seoyeon",n:"서연",c:"#aec1dc",tab:"서연 · 야근·여행",prof:[["나이·직업","28 · IT 기획자, 잦은 출장"],["피부","건조 · 쉽게 붉어짐"],["라이프","에어컨 사무실, 비행기, 짧은 수면"],["고민","당기는 피부, 푸석한 아침 화장"],["찾는 것","빠르고 확실한 수분"]],
+  j:[["07:30","출근 전","creamskin","크림 스킨 레이어링","바쁜 아침 다단계 보습","토너 하나로 끝"],["14:00","에어컨 사무실","gel","워터뱅크 젤 크림 덧바름","오후에 당기는 피부","수분량 +139%"],["21:00","야근","moist","워터뱅크 모이스춰 크림","건조한 실내","든든한 보습"],["01:00","늦은 취침","water","워터 슬리핑 마스크","4~5시간 짧은 잠","다음 날 화장 잘 받음"],["06:00","출장 공항","bfeye","아이 슬리핑 마스크 쿨링","부은 눈가","−5.8℃ 즉시 쿨링"]]},
+ {k:"minji",n:"민지",c:"#b7acd6",tab:"민지 · 첫 효능",prof:[["나이·직업","29 · 프리랜서 디자이너"],["피부","칙칙함 · 탄력 저하가 신경 쓰이기 시작"],["라이프","카페 작업, 불규칙한 수면, 주말 성수 산책"],["고민","무엇부터 시작할지 모르는 안티에이징"],["찾는 것","눈에 보이는 변화, 쉬운 첫 단계"]],
+  j:[["09:00","카페 작업 전","rcream","래디언씨 크림 오렌지 향","칙칙한 아침 톤","칙칙함 −30%"],["12:00","주말 성수 산책","essence","EFFECT LAB 톤 진단","내 고민을 모름","나에게 맞는 처방"],["15:00","팝업 피팅","neo","네오 쿠션 셰이드 매칭","톤 안 맞는 쿠션","셰이드 피팅"],["22:00","나를 위한 밤","bfmask","바운시 앤 펌 슬리핑 마스크","탄력 걱정","피오니 향 힐링"],["23:00","루틴 업그레이드","renew","퍼펙트 리뉴 3X 세럼","단계가 복잡","3가지 한 번에"]]}
+];
+const tabs=document.getElementById('ptabs');
+function show(i){
+  const p=PS[i];
+  [...tabs.children].forEach((b,j)=>b.setAttribute('aria-selected',j===i));
+  document.getElementById('pprof').innerHTML=`<div class="avatar" style="background:${p.c}">${p.n}</div><dl class="pf">${p.prof.map(r=>`<dt>${r[0]}</dt><dd>${r[1]}</dd>`).join('')}</dl>`;
+  document.getElementById('pjour').innerHTML=p.j.map(s=>`<div class="jc"><time>${s[0]}</time><span class="sc">${s[1]}</span><img src="img/${s[2]}.jpg" alt=""><span class="pain">불편: ${s[4]}</span><span class="pr">${s[3]}</span><span class="wow">${s[5]}</span></div>`).join('');
+}
+PS.forEach((p,i)=>{const b=document.createElement('button');b.role='tab';b.textContent=p.tab;b.onclick=()=>show(i);tabs.appendChild(b)});
+show(0);
+</script>
+</body>
+</html>
+
+</body></html>
